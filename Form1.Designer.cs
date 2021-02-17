@@ -41,6 +41,19 @@ namespace Assign3
             this.ServerBox2 = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.ServerBox3 = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.RoleBox = new System.Windows.Forms.ComboBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.MinUpDown = new System.Windows.Forms.NumericUpDown();
+            this.MaxUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.MinUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // OutputBox
@@ -157,12 +170,152 @@ namespace Assign3
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(12, 207);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(406, 20);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "All Role Types from a Single Server within a Level Range";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(148, 242);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(38, 13);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Server";
+            // 
+            // ServerBox3
+            // 
+            this.ServerBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ServerBox3.FormattingEnabled = true;
+            this.ServerBox3.Location = new System.Drawing.Point(151, 258);
+            this.ServerBox3.Name = "ServerBox3";
+            this.ServerBox3.Size = new System.Drawing.Size(121, 21);
+            this.ServerBox3.TabIndex = 13;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(21, 242);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(47, 13);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "RoleBox";
+            // 
+            // RoleBox
+            // 
+            this.RoleBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RoleBox.FormattingEnabled = true;
+            this.RoleBox.Location = new System.Drawing.Point(24, 258);
+            this.RoleBox.Name = "RoleBox";
+            this.RoleBox.Size = new System.Drawing.Size(121, 21);
+            this.RoleBox.TabIndex = 15;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(363, 256);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(116, 23);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "Show Results";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // MinUpDown
+            // 
+            this.MinUpDown.Location = new System.Drawing.Point(24, 309);
+            this.MinUpDown.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.MinUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.MinUpDown.Name = "MinUpDown";
+            this.MinUpDown.Size = new System.Drawing.Size(39, 20);
+            this.MinUpDown.TabIndex = 18;
+            this.MinUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.MinUpDown.ValueChanged += new System.EventHandler(this.MinUpDown_ValueChanged);
+            // 
+            // MaxUpDown
+            // 
+            this.MaxUpDown.Location = new System.Drawing.Point(69, 309);
+            this.MaxUpDown.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.MaxUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.MaxUpDown.Name = "MaxUpDown";
+            this.MaxUpDown.Size = new System.Drawing.Size(37, 20);
+            this.MaxUpDown.TabIndex = 19;
+            this.MaxUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.MaxUpDown.ValueChanged += new System.EventHandler(this.MaxUpDown_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(66, 332);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(27, 13);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "Max";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(21, 332);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(24, 13);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Min";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(21, 293);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(68, 13);
+            this.label12.TabIndex = 22;
+            this.label12.Text = "Level Range";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(1272, 810);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.MaxUpDown);
+            this.Controls.Add(this.MinUpDown);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.RoleBox);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.ServerBox3);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.ServerBox2);
@@ -177,6 +330,8 @@ namespace Assign3
             this.Controls.Add(this.OutputBox);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.MinUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,6 +351,17 @@ namespace Assign3
         private System.Windows.Forms.ComboBox ServerBox2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox ServerBox3;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox RoleBox;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.NumericUpDown MinUpDown;
+        private System.Windows.Forms.NumericUpDown MaxUpDown;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
     }
 }
 
