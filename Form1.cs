@@ -735,6 +735,8 @@ namespace Assign3
             LoadData();
             // adding the classes to the class dropdown
             ClassBox.Items.AddRange(new string[] { "Warrior", "Mage", "Druid", "Priest", "Warlock", "Rogue", "Paladin", "Hunter", "Shaman" });
+            //adding the roles to the Role box
+            RoleBox.Items.AddRange(new string[] { "Tank", "Healer", "Damage" });
             //Fills the server box
             foreach (KeyValuePair<uint, Guild> pair in Guilds)
             {
@@ -742,6 +744,8 @@ namespace Assign3
                     ServerBox.Items.Add(pair.Value.Servername);
                 if (ServerBox2.FindStringExact(pair.Value.Servername) == -1)
                     ServerBox2.Items.Add(pair.Value.Servername);
+                if (ServerBox3.FindStringExact(pair.Value.Servername) == -1)
+                    ServerBox3.Items.Add(pair.Value.Servername);
             }
         }
         //First button click to search for Classes on servers
@@ -772,7 +776,7 @@ namespace Assign3
             OutputBox.Items.Add("---------------------------------------------------------------------------------");
             foreach (KeyValuePair<uint, Player> i in ClassQuery)
             {
-                OutputBox.Items.Add(String.Format("Name: {0,-10} ({1} - {2,-6}) Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Servername));
+                OutputBox.Items.Add(String.Format("Name: {0,-15} ({1} - {2,-6}) Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Guildname));
                 Count++;
             }
             if (Count == 0)
@@ -788,41 +792,40 @@ namespace Assign3
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //checks to make sure that the server box is filled in
             if (ServerBox2.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select a server.");
                 return;
             }
             OutputBox.Items.Clear();
-            float OrcCount = 0;
-            float TrollCount = 0;
-            float TaurenCount = 0;
-            float ForsakenCount = 0;
+            //makes queries for all the races to get the counts and add them up
             float TCount = 0;
-            OrcCount =
+            float OrcCount =
                 (from p in Players
                  where p.Value.GuildID != 0
                  where p.Value.Race == (Race)0 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
                  select p).Count();
             TCount += OrcCount;
-            TrollCount =
+            float TrollCount =
                 (from p in Players
                  where p.Value.GuildID != 0
                  where p.Value.Race == (Race)1 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
                  select p).Count();
             TCount += TrollCount;
-            TaurenCount =
+            float TaurenCount =
                 (from p in Players
                  where p.Value.GuildID != 0
                  where p.Value.Race == (Race)2 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
                  select p).Count();
             TCount += TaurenCount;
-            ForsakenCount =
+            float ForsakenCount =
                 (from p in Players
                  where p.Value.GuildID != 0
                  where p.Value.Race == (Race)3 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
                  select p).Count();
             TCount += ForsakenCount;
+            //just some simple math and formatting so that all the percentages for all the races are printed out
             OutputBox.Items.Add(String.Format("Percentage of Each Race from {0}", ServerBox2.Text));
             OutputBox.Items.Add("---------------------------------------------------------------------------------");
             OutputBox.Items.Add(String.Format("Orc           {0:P2}",OrcCount / TCount));
@@ -831,6 +834,61 @@ namespace Assign3
             OutputBox.Items.Add(String.Format("Forsaken      {0:P2}", ForsakenCount / TCount));
             OutputBox.Items.Add("End Results");
             OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            ServerBox2.SelectedIndex = -1;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //checks to make sure that the server and role boxes are filled
+            if (RoleBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a server.");
+                return;
+            }
+            if (ServerBox3.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a server.");
+                return;
+            }
+            OutputBox.Items.Clear();
+            //queries to find everyone of a certain role on a certain server
+            var ClassQuery =
+                from p in Players
+                where p.Value.GuildID != 0
+                where p.Value.Role == (Role)RoleBox.SelectedIndex && Guilds[p.Value.GuildID].Servername.Contains(ServerBox3.Text)
+                where p.Value.Level <= MaxUpDown.Value && p.Value.Level >= MinUpDown.Value
+                orderby p.Value.Level
+                select p;
+            int Count = 0;
+            //prints out the players if any are found or that none where found if that is the case
+            OutputBox.Items.Add(String.Format("All {0} from {1}", RoleBox.Text, ServerBox3.Text));
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            foreach (KeyValuePair<uint, Player> i in ClassQuery)
+            {
+                OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-7} - {2,-6}) Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Guildname));
+                Count++;
+            }
+            if (Count == 0)
+            {
+                OutputBox.Items.Add("No players of that class where found on that server.");
+            }
+            OutputBox.Items.Add("End Results");
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            //resets the combo boxs because I think that looks nicer when they do that.
+            RoleBox.SelectedIndex = -1;
+            ServerBox3.SelectedIndex = -1;
+        }
+
+        //these two functions just make sure that the min level is never higher than the max level and the same in reverse.
+        private void MinUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (MinUpDown.Value > MaxUpDown.Value)
+                MaxUpDown.Value = MinUpDown.Value;
+        }
+        private void MaxUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (MinUpDown.Value > MaxUpDown.Value)
+                MinUpDown.Value = MaxUpDown.Value;
         }
     }
 }
