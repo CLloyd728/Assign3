@@ -732,6 +732,56 @@ namespace Assign3
         public Form1()
         {
             InitializeComponent();
+            LoadData();
+            // adding the classes to the class dropdown
+            ClassBox.Items.AddRange(new string[] { "Warrior", "Mage", "Druid", "Priest", "Warlock", "Rogue", "Paladin", "Hunter", "Shaman" });
+            //Fills the server box
+            foreach (KeyValuePair<uint, Guild> pair in Guilds)
+            {
+                if (ServerBox.FindStringExact(pair.Value.Servername) == -1)
+                    ServerBox.Items.Add(pair.Value.Servername);
+            }
+        }
+        //First button click to search for Classes on servers
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //checks to make sure that the dropdown boxes are selected
+            if (ClassBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a Class.");
+                return;
+            }
+            if (ServerBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a server.");
+                return;
+            }
+            OutputBox.Items.Clear();
+            //the query that finds all players of a certain class on a specific server
+            var ClassQuery =
+                from p in Players
+                where p.Value.GuildID != 0
+                where p.Value.Playerclass == (PlayerClass)ClassBox.SelectedIndex && Guilds[p.Value.GuildID].Servername.Contains(ServerBox.Text)
+                orderby p.Value.Name
+                select p;
+            int Count = 0;
+            //prints out the players if any are found or that none where found if that is the case
+            OutputBox.Items.Add(String.Format("All {0} from {1}", ClassBox.Text, ServerBox.Text));
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            foreach (KeyValuePair<uint, Player> i in ClassQuery)
+            {
+                OutputBox.Items.Add(String.Format("Name: {0,-10} ({1} - {2,-6}) Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Servername));
+                Count++;
+            }
+            if (Count == 0)
+            {
+                OutputBox.Items.Add("No players of that class where found on that server.");
+            }
+            OutputBox.Items.Add("End Results");
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            //resets the combo boxs because I think that looks nicer when they do that.
+            ClassBox.SelectedIndex = -1;
+            ServerBox.SelectedIndex = -1;
         }
     }
 }
