@@ -737,6 +737,8 @@ namespace Assign3
             ClassBox.Items.AddRange(new string[] { "Warrior", "Mage", "Druid", "Priest", "Warlock", "Rogue", "Paladin", "Hunter", "Shaman" });
             //adding the roles to the Role box
             RoleBox.Items.AddRange(new string[] { "Tank", "Healer", "Damage" });
+            //adding the types to the guild type box
+            TypeBox.Items.AddRange(new string[] { "Casual", "Questing", "Mythic", "Raiding", "PVP"});
             //Fills the server box
             foreach (KeyValuePair<uint, Guild> pair in Guilds)
             {
@@ -889,6 +891,44 @@ namespace Assign3
         {
             if (MinUpDown.Value > MaxUpDown.Value)
                 MinUpDown.Value = MaxUpDown.Value;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //checks to make sure that the Type boxe is filled
+            if (TypeBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a server.");
+                return;
+            }
+            OutputBox.Items.Clear();
+            //query inlcuding a groupby server name
+            var GuildQuery =
+                from g in Guilds
+                where g.Value.Guildtype == (GuildType)TypeBox.SelectedIndex
+                orderby g.Value.Guildname
+                group g by g.Value.Servername;
+            int Count = 0;
+            OutputBox.Items.Add(String.Format("All {0} from {1}", RoleBox.Text, ServerBox3.Text));
+            //nested foreach loops to go through all of the guilds in each group and print them out by name
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            foreach (var i in GuildQuery)
+            {
+                OutputBox.Items.Add(i.Key);
+                foreach(KeyValuePair<uint, Guild> guild in i)
+                {
+                    OutputBox.Items.Add(String.Format("               <{0}>)", guild.Value.Guildname));
+                }
+                Count++;
+            }
+            if (Count == 0)
+            {
+                OutputBox.Items.Add("No players of that class where found on that server.");
+            }
+            OutputBox.Items.Add("End Results");
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            //resets the combo box because I think that looks nicer when they do that.
+            TypeBox.SelectedIndex = -1;
         }
     }
 }

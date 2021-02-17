@@ -52,6 +52,10 @@ namespace Assign3
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.TypeBox = new System.Windows.Forms.ComboBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MinUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxUpDown)).BeginInit();
             this.SuspendLayout();
@@ -299,12 +303,54 @@ namespace Assign3
             this.label12.TabIndex = 22;
             this.label12.Text = "Level Range";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(12, 362);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(188, 20);
+            this.label13.TabIndex = 23;
+            this.label13.Text = "All guilds of a certain type";
+            // 
+            // TypeBox
+            // 
+            this.TypeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.TypeBox.FormattingEnabled = true;
+            this.TypeBox.Location = new System.Drawing.Point(24, 409);
+            this.TypeBox.Name = "TypeBox";
+            this.TypeBox.Size = new System.Drawing.Size(121, 21);
+            this.TypeBox.TabIndex = 24;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(363, 409);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(116, 23);
+            this.button4.TabIndex = 25;
+            this.button4.Text = "Show Results";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(21, 393);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(31, 13);
+            this.label14.TabIndex = 26;
+            this.label14.Text = "Type";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(1272, 810);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.TypeBox);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -362,6 +408,10 @@ namespace Assign3
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox TypeBox;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label14;
     }
 }
 
