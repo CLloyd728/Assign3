@@ -14,22 +14,25 @@ namespace Assign3
     public partial class Form1 : Form
     {
         /*
-        * Enum definitions
-        */
+         * Enum definitions
+         */
         public enum ItemType
         {
             Helmet, Neck, Shoulders, Back, Chest,
             Wrist, Gloves, Belt, Pants, Boots,
             Ring, Trinket
         };
-        //enum for the races of characters.
+
         public enum Race { Orc, Troll, Tauren, Forsaken };
-        //an enum listing the types of classes a player can be in the proper order
+
         public enum PlayerClass
         {
-            Warrior, Mage, Druid, Priest, Warlock, Rogue, Paladin, Hunter, Shaman
+            Warrior, Mage, Druid, Priest, Warlock,
+            Rogue, Paladin, Hunter, Shaman
         };
-        //an enum for what type of guild it is
+
+        public enum Role { Tank, Healer, Damage };
+
         public enum GuildType
         {
             Casual, Questing, Mythic, Raiding, PVP
@@ -101,7 +104,7 @@ namespace Assign3
             //searches the guild list for a guild by name
             foreach (KeyValuePair<uint, Guild> pair in Guilds)
             {
-                if (pair.Value.guildName == gName)
+                if (pair.Value.Guildname == gName)
                 {
                     key[i] = pair.Key;
                     i++;
@@ -155,8 +158,8 @@ namespace Assign3
             {
                 //Seperate on tabs and add to dict of Guilds
                 string[] s = line.Split('\t');
-                string[] s1 = s[1].Split('-');
-                Guilds.Add((Convert.ToUInt32(s[0])), new Guild(s1[0], s1[1].Trim()));
+                string[] s1 = s[2].Split('-');
+                Guilds.Add(Convert.ToUInt32(s[0]), new Guild(s1[0].Trim(), s1[1].Trim(), (GuildType)(Convert.ToUInt32(s[1])), Convert.ToUInt32(s[0])));
             }
 
             //Read in data from Items file
@@ -178,13 +181,9 @@ namespace Assign3
                 string[] s = line.Split('\t');
                 // Build the Gear array for the Player
                 uint[] ar = new uint[MAX_INVENTORY_SIZE];
-                /*for (int i = 0, x = 7; i < (MAX_INVENTORY_SIZE - 6); i++, x++)
-                {
-                    ar[i] = Convert.ToUInt32(s[x]);
-                }*/
-                Player player = new Player(Convert.ToUInt32(s[0]), s[1].Trim(), (Race)Convert.ToUInt32(s[2]), (PlayerClass)Convert.ToUInt32(s[3]), Convert.ToUInt32(s[4]),
-                                   Convert.ToUInt32(s[5]), Convert.ToUInt32(s[6]), ar);
-                Players.Add(player.Id, player);
+                Player player = new Player(Convert.ToUInt32(s[0]), s[1].Trim(), (Race)Convert.ToUInt32(s[2]), (PlayerClass)Convert.ToUInt32(s[3]), (Role)Convert.ToUInt32(s[4]), Convert.ToUInt32(s[5]),
+                                   Convert.ToUInt32(s[6]), Convert.ToUInt32(s[7]), ar);
+                Players.Add(player.Id, player);      
             }
         }
 
@@ -204,8 +203,8 @@ namespace Assign3
             private uint _guildID;
             private uint[] _gear;
             private PlayerClass _playerclass;
+            private Role _role;
             private List<uint> _inventory;
-            string _role = "";
             bool firstRingNext = true;
             bool firstTrinkNext = true;
 
@@ -223,12 +222,14 @@ namespace Assign3
                 _playerclass = 0;
                 _gear = new uint[GEAR_SLOTS];
                 _inventory = new List<uint>();
+                _role = 0;
+                
             }
 
             /*
              * Custom Constructor for Player Class
              */
-            public Player(uint id, string name, Race race, PlayerClass playerclass, uint level, uint exp, uint guildID, uint[] gear)
+            public Player(uint id, string name, Race race, PlayerClass playerclass, Role role, uint level, uint exp, uint guildID, uint[] gear)
             {
                 _id = id;
                 _name = name;
@@ -237,16 +238,18 @@ namespace Assign3
                 _exp = exp;
                 _guildID = guildID;
                 _gear = new uint[GEAR_SLOTS];
+                _inventory = new List<uint>();
+                _playerclass = playerclass;
+                _role = role;
+
                 //If passed in gear arrray is not empty, copy it into Player gear array
                 if (gear != null)
                     Array.Copy(gear, gear.GetLowerBound(0), _gear, _gear.GetLowerBound(0), GEAR_SLOTS);
-                _inventory = new List<uint>();
-                _playerclass = playerclass;
             }
             /*
              *Role property
              */
-            public string Role
+            public Role Role
             {
                 get => _role;
                 set => _role = value;
@@ -521,7 +524,7 @@ namespace Assign3
             public override String ToString()
             {
                 string message = "Name: " + String.Format("{0,-12}", _name) + "\tRace: " + _race + "\tLevel: " + _level;
-                return _guildID == 0 ? message : message + "     Guild: " + Guilds[GuildID].guildName + " [" + Guilds[GuildID].serverName + "]";
+                return _guildID == 0 ? message : message + "     Guild: " + Guilds[GuildID].Guildname + " [" + Guilds[GuildID].Guildname + "]";
 
             }
         }
@@ -693,15 +696,37 @@ namespace Assign3
         //Guild class to be used in the guild dictionary
         public class Guild
         {
-            public string guildName;
-            public string serverName;
-            public GuildType guildType;
+            private string _guildName;
+            private string _serverName;
+            private uint _guildID;
+            private GuildType _guildType;
             //a guild class constuctor with a guildtype value of casual
-            public Guild(string GuildName, string ServerName, GuildType Guildtype = 0)
+            public Guild(string guildName, string serverName, GuildType guildType, uint guildID)
             {
-                guildName = GuildName;
-                serverName = ServerName;
-                guildType = Guildtype;
+                _guildName = guildName;
+                _serverName = serverName;
+                _guildType = guildType;
+                _guildID = guildID;
+            }
+
+            public string Guildname
+            {
+                get => _guildName;
+            }
+
+            public string Servername
+            {
+                get => _serverName;
+            }
+
+            public GuildType Guildtype
+            {
+                get => _guildType;
+            }
+
+            public uint Guildid
+            {
+                get => _guildID;
             }
         }
         public Form1()
