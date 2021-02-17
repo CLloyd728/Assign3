@@ -524,7 +524,7 @@ namespace Assign3
             public override String ToString()
             {
                 string message = "Name: " + String.Format("{0,-12}", _name) + "\tRace: " + _race + "\tLevel: " + _level;
-                return _guildID == 0 ? message : message + "     Guild: " + Guilds[GuildID].Guildname + " [" + Guilds[GuildID].Guildname + "]";
+                return _guildID == 0 ? message : message + "     Guild: " + Guilds[GuildID].Guildname + " [" + Guilds[GuildID].Servername + "]";
 
             }
         }
