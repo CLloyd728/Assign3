@@ -740,6 +740,8 @@ namespace Assign3
             {
                 if (ServerBox.FindStringExact(pair.Value.Servername) == -1)
                     ServerBox.Items.Add(pair.Value.Servername);
+                if (ServerBox2.FindStringExact(pair.Value.Servername) == -1)
+                    ServerBox2.Items.Add(pair.Value.Servername);
             }
         }
         //First button click to search for Classes on servers
@@ -782,6 +784,53 @@ namespace Assign3
             //resets the combo boxs because I think that looks nicer when they do that.
             ClassBox.SelectedIndex = -1;
             ServerBox.SelectedIndex = -1;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (ServerBox2.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a server.");
+                return;
+            }
+            OutputBox.Items.Clear();
+            float OrcCount = 0;
+            float TrollCount = 0;
+            float TaurenCount = 0;
+            float ForsakenCount = 0;
+            float TCount = 0;
+            OrcCount =
+                (from p in Players
+                 where p.Value.GuildID != 0
+                 where p.Value.Race == (Race)0 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
+                 select p).Count();
+            TCount += OrcCount;
+            TrollCount =
+                (from p in Players
+                 where p.Value.GuildID != 0
+                 where p.Value.Race == (Race)1 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
+                 select p).Count();
+            TCount += TrollCount;
+            TaurenCount =
+                (from p in Players
+                 where p.Value.GuildID != 0
+                 where p.Value.Race == (Race)2 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
+                 select p).Count();
+            TCount += TaurenCount;
+            ForsakenCount =
+                (from p in Players
+                 where p.Value.GuildID != 0
+                 where p.Value.Race == (Race)3 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
+                 select p).Count();
+            TCount += ForsakenCount;
+            OutputBox.Items.Add(String.Format("Percentage of Each Race from {0}", ServerBox2.Text));
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(String.Format("Orc           {0:P2}",OrcCount / TCount));
+            OutputBox.Items.Add(String.Format("Troll         {0:P2}", TrollCount / TCount));
+            OutputBox.Items.Add(String.Format("Tauren        {0:P2}", TaurenCount / TCount));
+            OutputBox.Items.Add(String.Format("Forsaken      {0:P2}", ForsakenCount / TCount));
+            OutputBox.Items.Add("End Results");
+            OutputBox.Items.Add("---------------------------------------------------------------------------------");
         }
     }
 }
