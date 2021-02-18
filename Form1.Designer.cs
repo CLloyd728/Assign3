@@ -473,7 +473,7 @@ namespace Assign3
             this.Controls.Add(this.label1);
             this.Controls.Add(this.OutputBox);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "World of ConflictCraft: Querying System";
             ((System.ComponentModel.ISupportInitialize)(this.MinUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);
