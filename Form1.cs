@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,6 +38,13 @@ namespace Assign3
             Casual, Questing, Mythic, Raiding, PVP
         };
 
+        /*
+         * Lists of what Class can preform what Roles
+         */
+        public static List<PlayerClass> Tank = new List<PlayerClass>() { PlayerClass.Warrior, PlayerClass.Druid, PlayerClass.Paladin };
+        public static List<PlayerClass> Healer = new List<PlayerClass>() { PlayerClass.Druid, PlayerClass.Priest, PlayerClass.Paladin, PlayerClass.Shaman };
+        public static List<PlayerClass> Damage = new List<PlayerClass>() { PlayerClass.Warlock, PlayerClass.Mage, PlayerClass.Druid, PlayerClass.Priest, PlayerClass.Warlock, PlayerClass.Rogue, PlayerClass.Paladin,
+                                                                    PlayerClass.Hunter, PlayerClass.Shaman };
         /*
          * Global variables
          */
@@ -183,7 +190,7 @@ namespace Assign3
                 uint[] ar = new uint[MAX_INVENTORY_SIZE];
                 Player player = new Player(Convert.ToUInt32(s[0]), s[1].Trim(), (Race)Convert.ToUInt32(s[2]), (PlayerClass)Convert.ToUInt32(s[3]), (Role)Convert.ToUInt32(s[4]), Convert.ToUInt32(s[5]),
                                    Convert.ToUInt32(s[6]), Convert.ToUInt32(s[7]), ar);
-                Players.Add(player.Id, player);      
+                Players.Add(player.Id, player);
             }
         }
 
@@ -223,7 +230,7 @@ namespace Assign3
                 _gear = new uint[GEAR_SLOTS];
                 _inventory = new List<uint>();
                 _role = 0;
-                
+
             }
 
             /*
@@ -738,7 +745,7 @@ namespace Assign3
             //adding the roles to the Role box
             RoleBox.Items.AddRange(new string[] { "Tank", "Healer", "Damage" });
             //adding the types to the guild type box
-            TypeBox.Items.AddRange(new string[] { "Casual", "Questing", "Mythic", "Raiding", "PVP"});
+            TypeBox.Items.AddRange(new string[] { "Casual", "Questing", "Mythic", "Raiding", "PVP" });
             //Fills the server box
             foreach (KeyValuePair<uint, Guild> pair in Guilds)
             {
@@ -756,12 +763,12 @@ namespace Assign3
             //checks to make sure that the dropdown boxes are selected
             if (ClassBox.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a Class.");
+                MessageBox.Show("Please select a Class.", "Error");
                 return;
             }
             if (ServerBox.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a server.");
+                MessageBox.Show("Please select a server.", "Error");
                 return;
             }
             OutputBox.Items.Clear();
@@ -797,7 +804,7 @@ namespace Assign3
             //checks to make sure that the server box is filled in
             if (ServerBox2.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a server.");
+                MessageBox.Show("Please select a server.", "Error");
                 return;
             }
             OutputBox.Items.Clear();
@@ -830,7 +837,7 @@ namespace Assign3
             //just some simple math and formatting so that all the percentages for all the races are printed out
             OutputBox.Items.Add(String.Format("Percentage of Each Race from {0}", ServerBox2.Text));
             OutputBox.Items.Add("---------------------------------------------------------------------------------");
-            OutputBox.Items.Add(String.Format("Orc           {0:P2}",OrcCount / TCount));
+            OutputBox.Items.Add(String.Format("Orc           {0:P2}", OrcCount / TCount));
             OutputBox.Items.Add(String.Format("Troll         {0:P2}", TrollCount / TCount));
             OutputBox.Items.Add(String.Format("Tauren        {0:P2}", TaurenCount / TCount));
             OutputBox.Items.Add(String.Format("Forsaken      {0:P2}", ForsakenCount / TCount));
@@ -844,12 +851,12 @@ namespace Assign3
             //checks to make sure that the server and role boxes are filled
             if (RoleBox.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a server.");
+                MessageBox.Show("Please select a server.", "Error");
                 return;
             }
             if (ServerBox3.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a server.");
+                MessageBox.Show("Please select a server.", "Error");
                 return;
             }
             OutputBox.Items.Clear();
@@ -898,7 +905,7 @@ namespace Assign3
             //checks to make sure that the Type boxe is filled
             if (TypeBox.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a server.");
+                MessageBox.Show("Please select a server.", "Error");
                 return;
             }
             OutputBox.Items.Clear();
@@ -915,7 +922,7 @@ namespace Assign3
             foreach (var i in GuildQuery)
             {
                 OutputBox.Items.Add(i.Key);
-                foreach(KeyValuePair<uint, Guild> guild in i)
+                foreach (KeyValuePair<uint, Guild> guild in i)
                 {
                     OutputBox.Items.Add(String.Format("               <{0}>)", guild.Value.Guildname));
                 }
@@ -929,6 +936,91 @@ namespace Assign3
             OutputBox.Items.Add("---------------------------------------------------------------------------------");
             //resets the combo box because I think that looks nicer when they do that.
             TypeBox.SelectedIndex = -1;
+        }
+        
+        private void button5_Click(object sender, EventArgs e)
+        {
+            // No button selected
+            if (!TankButton.Checked && !HealerButton.Checked && !DamageButton.Checked)
+            {              
+                MessageBox.Show("Please select a role.", "Error");
+                return;
+            }
+
+            // Clear output field
+            OutputBox.Items.Clear();
+
+            // Tank button selected
+            if(TankButton.Checked)
+            {
+                // Execute query
+                var roleQuery =
+                    from p in Players
+                    where Tank.Contains(p.Value.Playerclass)
+                    where p.Value.Role != Role.Tank
+                    orderby p.Value.Level, p.Value.Name
+                    select p;
+
+                // Print results
+                OutputBox.Items.Add("All Eligible Players Not Fulfilling the Tank Role");
+                OutputBox.Items.Add(new String('-', 80));
+                foreach (var result in roleQuery)
+                    OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-6})   Race: {3,-8}   Level: {4,-2}   <{5}>",
+                                                       result.Value.Name, result.Value.Playerclass, result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
+            }
+
+            // Healer button selected
+            if (HealerButton.Checked)
+            {
+                // Execute query
+                var roleQuery =
+                    from p in Players
+                    where Healer.Contains(p.Value.Playerclass)
+                    where p.Value.Role != Role.Healer
+                    orderby p.Value.Level, p.Value.Name
+                    select p;
+
+
+                // Print results
+                OutputBox.Items.Add("All Eligible Players Not Fulfilling the Healer Role");
+                OutputBox.Items.Add(new String('-', 80));
+                foreach (var result in roleQuery)
+                {
+                    OutputBox.Items.Add(result.Value.Role == Role.Tank ? 
+                        String.Format("Name: {0,-15} ({1,-8} - {2,-4})     Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
+                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname) :
+                        String.Format("Name: {0,-15} ({1,-8} - {2,-6})   Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
+                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
+                }
+            }
+
+            // Damage button selected
+            if (DamageButton.Checked)
+            {
+                // Execute query 
+                var roleQuery =
+                    from p in Players
+                    where Damage.Contains(p.Value.Playerclass)
+                    where p.Value.Role != Role.Damage
+                    orderby p.Value.Level, p.Value.Name
+                    select p;
+
+                // Print results
+                OutputBox.Items.Add("All Eligible Players Not Fulfilling the Damage Role");
+                OutputBox.Items.Add(new String('-', 80));
+                foreach (var result in roleQuery)
+                {
+                    OutputBox.Items.Add(result.Value.Role == Role.Tank ?
+                        String.Format("Name: {0,-15} ({1,-8} - {2,-4})     Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
+                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname) :
+                        String.Format("Name: {0,-15} ({1,-8} - {2,-6})   Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
+                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
+                }
+            }
+
+            OutputBox.Items.Add("");
+            OutputBox.Items.Add("END RESULTS");
+            OutputBox.Items.Add(new string('-', 80));
         }
     }
 }
