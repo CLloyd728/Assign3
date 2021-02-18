@@ -1021,7 +1021,7 @@ namespace Assign3
             OutputBox.Items.Add("Percentage of Max Level Players in All Guilds");
             OutputBox.Items.Add(new String('-', 80));
 
-            // Process both queries needed for each guild
+            // Process member query needed for each guild
             foreach (KeyValuePair<uint, Guild> g in Guilds)
             {
                 int cappedMembers = 0;      //number of capped guild members
