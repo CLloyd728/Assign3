@@ -782,7 +782,7 @@ namespace Assign3
             int Count = 0;
             //prints out the players if any are found or that none where found if that is the case
             OutputBox.Items.Add(String.Format("All {0} from {1}", ClassBox.Text, ServerBox.Text));
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             foreach (KeyValuePair<uint, Player> i in ClassQuery)
             {
                 OutputBox.Items.Add(String.Format("Name: {0,-15} ({1} - {2,-6}) Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Guildname));
@@ -793,7 +793,7 @@ namespace Assign3
                 OutputBox.Items.Add("No players of that class where found on that server.");
             }
             OutputBox.Items.Add("End Results");
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             //resets the combo boxs because I think that looks nicer when they do that.
             ClassBox.SelectedIndex = -1;
             ServerBox.SelectedIndex = -1;
@@ -836,13 +836,13 @@ namespace Assign3
             TCount += ForsakenCount;
             //just some simple math and formatting so that all the percentages for all the races are printed out
             OutputBox.Items.Add(String.Format("Percentage of Each Race from {0}", ServerBox2.Text));
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             OutputBox.Items.Add(String.Format("Orc           {0:P2}", OrcCount / TCount));
             OutputBox.Items.Add(String.Format("Troll         {0:P2}", TrollCount / TCount));
             OutputBox.Items.Add(String.Format("Tauren        {0:P2}", TaurenCount / TCount));
             OutputBox.Items.Add(String.Format("Forsaken      {0:P2}", ForsakenCount / TCount));
             OutputBox.Items.Add("End Results");
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             ServerBox2.SelectedIndex = -1;
         }
 
@@ -871,7 +871,7 @@ namespace Assign3
             int Count = 0;
             //prints out the players if any are found or that none where found if that is the case
             OutputBox.Items.Add(String.Format("All {0} from {1}", RoleBox.Text, ServerBox3.Text));
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             foreach (KeyValuePair<uint, Player> i in ClassQuery)
             {
                 OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-7} - {2,-6}) Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Guildname));
@@ -882,7 +882,7 @@ namespace Assign3
                 OutputBox.Items.Add("No players of that class where found on that server.");
             }
             OutputBox.Items.Add("End Results");
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             //resets the combo boxs because I think that looks nicer when they do that.
             RoleBox.SelectedIndex = -1;
             ServerBox3.SelectedIndex = -1;
@@ -918,7 +918,7 @@ namespace Assign3
             int Count = 0;
             OutputBox.Items.Add(String.Format("All {0} from {1}", RoleBox.Text, ServerBox3.Text));
             //nested foreach loops to go through all of the guilds in each group and print them out by name
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             foreach (var i in GuildQuery)
             {
                 OutputBox.Items.Add(i.Key);
@@ -933,7 +933,7 @@ namespace Assign3
                 OutputBox.Items.Add("No players of that class where found on that server.");
             }
             OutputBox.Items.Add("End Results");
-            OutputBox.Items.Add("---------------------------------------------------------------------------------");
+            OutputBox.Items.Add(new String('-', 80));
             //resets the combo box because I think that looks nicer when they do that.
             TypeBox.SelectedIndex = -1;
         }
