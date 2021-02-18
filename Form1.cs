@@ -985,13 +985,8 @@ namespace Assign3
                 OutputBox.Items.Add("All Eligible Players Not Fulfilling the Healer Role");
                 OutputBox.Items.Add(new String('-', 80));
                 foreach (var result in roleQuery)
-                {
-                    OutputBox.Items.Add(result.Value.Role == Role.Tank ? 
-                        String.Format("Name: {0,-15} ({1,-8} - {2,-4})     Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
-                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname) :
-                        String.Format("Name: {0,-15} ({1,-8} - {2,-6})   Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
-                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
-                }
+                        OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-10}Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
+                                      result.Value.Role + ")", result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));          
             }
 
             // Damage button selected
@@ -1009,18 +1004,55 @@ namespace Assign3
                 OutputBox.Items.Add("All Eligible Players Not Fulfilling the Damage Role");
                 OutputBox.Items.Add(new String('-', 80));
                 foreach (var result in roleQuery)
-                {
-                    OutputBox.Items.Add(result.Value.Role == Role.Tank ?
-                        String.Format("Name: {0,-15} ({1,-8} - {2,-4})     Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
-                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname) :
-                        String.Format("Name: {0,-15} ({1,-8} - {2,-6})   Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
-                                      result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
-                }
+                    OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-10}Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
+                                  result.Value.Role + ")", result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
             }
 
+            // Print footer
             OutputBox.Items.Add("");
             OutputBox.Items.Add("END RESULTS");
             OutputBox.Items.Add(new string('-', 80));
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {          
+            // Clear the output field and print header
+            OutputBox.Items.Clear();
+            OutputBox.Items.Add("Percentage of Max Level Players in All Guilds");
+            OutputBox.Items.Add(new String('-', 80));
+
+            // Process both queries needed for each guild
+            foreach (KeyValuePair<uint, Guild> g in Guilds)
+            {
+                int cappedMembers = 0;      //number of capped guild members
+                int members = 0;            //number of total guild members
+
+                // Query number of players in the guild and get count
+                var membersQuery =
+                    from p in Players
+                    where p.Value.GuildID == g.Value.Guildid
+                    select p;
+
+                // Add to totals based on results of the query
+                foreach (var result in membersQuery)
+                {
+                    members++;
+                    if (result.Value.Level == 60)
+                        cappedMembers++;
+                }
+
+                // Output results to output field
+                if (members != 0)
+                {
+                    OutputBox.Items.Add(String.Format("<{0,-40}{1,7}", g.Value.Guildname + ">", ((double)cappedMembers / members).ToString("#0.00%")));
+                    OutputBox.Items.Add("");
+                }
+            }
+
+            // Print footer
+            OutputBox.Items.Add("");
+            OutputBox.Items.Add("END RESULTS");
+            OutputBox.Items.Add(new String('-', 80));
         }
     }
 }
