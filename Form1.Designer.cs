@@ -1,4 +1,3 @@
-﻿
 namespace Assign3
 {
     partial class Form1
@@ -56,8 +55,15 @@ namespace Assign3
             this.TypeBox = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.DamageButton = new System.Windows.Forms.RadioButton();
+            this.HealerButton = new System.Windows.Forms.RadioButton();
+            this.TankButton = new System.Windows.Forms.RadioButton();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MinUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxUpDown)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // OutputBox
@@ -341,12 +347,79 @@ namespace Assign3
             this.label14.TabIndex = 26;
             this.label14.Text = "Type";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(20, 469);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(380, 20);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "All Players Who Could Fill a Role But Presently Aren\'t";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.DamageButton);
+            this.groupBox1.Controls.Add(this.HealerButton);
+            this.groupBox1.Controls.Add(this.TankButton);
+            this.groupBox1.Location = new System.Drawing.Point(24, 515);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(232, 50);
+            this.groupBox1.TabIndex = 28;
+            this.groupBox1.TabStop = false;
+            // 
+            // DamageButton
+            // 
+            this.DamageButton.AutoSize = true;
+            this.DamageButton.Location = new System.Drawing.Point(163, 19);
+            this.DamageButton.Name = "DamageButton";
+            this.DamageButton.Size = new System.Drawing.Size(65, 17);
+            this.DamageButton.TabIndex = 31;
+            this.DamageButton.TabStop = true;
+            this.DamageButton.Text = "Damage";
+            this.DamageButton.UseVisualStyleBackColor = true;
+            // 
+            // HealerButton
+            // 
+            this.HealerButton.AutoSize = true;
+            this.HealerButton.Location = new System.Drawing.Point(83, 19);
+            this.HealerButton.Name = "HealerButton";
+            this.HealerButton.Size = new System.Drawing.Size(56, 17);
+            this.HealerButton.TabIndex = 30;
+            this.HealerButton.TabStop = true;
+            this.HealerButton.Text = "Healer";
+            this.HealerButton.UseVisualStyleBackColor = true;
+            // 
+            // TankButton
+            // 
+            this.TankButton.AutoSize = true;
+            this.TankButton.Location = new System.Drawing.Point(6, 19);
+            this.TankButton.Name = "TankButton";
+            this.TankButton.Size = new System.Drawing.Size(50, 17);
+            this.TankButton.TabIndex = 29;
+            this.TankButton.TabStop = true;
+            this.TankButton.Text = "Tank";
+            this.TankButton.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(363, 528);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(116, 23);
+            this.button5.TabIndex = 29;
+            this.button5.Text = "Show Results";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(1272, 810);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.TypeBox);
@@ -378,6 +451,8 @@ namespace Assign3
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.MinUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxUpDown)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -412,6 +487,11 @@ namespace Assign3
         private System.Windows.Forms.ComboBox TypeBox;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton DamageButton;
+        private System.Windows.Forms.RadioButton HealerButton;
+        private System.Windows.Forms.RadioButton TankButton;
+        private System.Windows.Forms.Button button5;
     }
 }
-
