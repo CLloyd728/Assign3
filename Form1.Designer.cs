@@ -1,3 +1,4 @@
+
 namespace Assign3
 {
     partial class Form1
@@ -61,6 +62,8 @@ namespace Assign3
             this.HealerButton = new System.Windows.Forms.RadioButton();
             this.TankButton = new System.Windows.Forms.RadioButton();
             this.button5 = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MinUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -73,7 +76,7 @@ namespace Assign3
             this.OutputBox.ItemHeight = 15;
             this.OutputBox.Location = new System.Drawing.Point(533, 32);
             this.OutputBox.Name = "OutputBox";
-            this.OutputBox.Size = new System.Drawing.Size(727, 754);
+            this.OutputBox.Size = new System.Drawing.Size(727, 664);
             this.OutputBox.TabIndex = 0;
             // 
             // label1
@@ -411,12 +414,34 @@ namespace Assign3
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(20, 620);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(324, 20);
+            this.label16.TabIndex = 30;
+            this.label16.Text = "Percentage of Max Level Players in All Guilds";
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(363, 659);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(116, 23);
+            this.button6.TabIndex = 31;
+            this.button6.Text = "Show Results";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(1272, 810);
+            this.ClientSize = new System.Drawing.Size(1272, 711);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label15);
@@ -493,5 +518,7 @@ namespace Assign3
         private System.Windows.Forms.RadioButton HealerButton;
         private System.Windows.Forms.RadioButton TankButton;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button button6;
     }
 }
