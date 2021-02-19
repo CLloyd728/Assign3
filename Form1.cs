@@ -931,7 +931,7 @@ namespace Assign3
             }
             if (Count == 0)
             {
-                OutputBox.Items.Add("No players of that class were found on that server.");
+                OutputBox.Items.Add("No Guilds found.");
             }
             OutputBox.Items.Add("");
             OutputBox.Items.Add("END RESULTS");
