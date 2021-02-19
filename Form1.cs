@@ -39,12 +39,12 @@ namespace Assign3
         };
 
         /*
-         * Lists of what Class can preform what Roles
+         * Lists of what Classes can preform what Roles
          */
         public static List<PlayerClass> Tank = new List<PlayerClass>() { PlayerClass.Warrior, PlayerClass.Druid, PlayerClass.Paladin };
         public static List<PlayerClass> Healer = new List<PlayerClass>() { PlayerClass.Druid, PlayerClass.Priest, PlayerClass.Paladin, PlayerClass.Shaman };
-        public static List<PlayerClass> Damage = new List<PlayerClass>() { PlayerClass.Warlock, PlayerClass.Mage, PlayerClass.Druid, PlayerClass.Priest, PlayerClass.Warlock, PlayerClass.Rogue, PlayerClass.Paladin,
-                                                                    PlayerClass.Hunter, PlayerClass.Shaman };
+        public static List<PlayerClass> Damage = new List<PlayerClass>() { PlayerClass.Warlock, PlayerClass.Mage, PlayerClass.Druid, PlayerClass.Priest, 
+                                                          PlayerClass.Warlock, PlayerClass.Rogue, PlayerClass.Paladin, PlayerClass.Hunter, PlayerClass.Shaman };
         /*
          * Global variables
          */
@@ -63,15 +63,13 @@ namespace Assign3
         private static Dictionary<uint, Player> Players = new Dictionary<uint, Player>();
 
         /*
-         * Input file paths
-         *
-         * You Might have to alter the path if you have the input files located in a different folder than I do.
-         * Mine are in the same folder where the Assign1.cs file is located in VS.
+         * Input file paths (may need to be changed depending on directory structure)       
          */
         private static string guildsFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\guilds.txt";
         private static string itemsFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\equipment.txt";
         private static string playersFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\players.txt";
-        //finds the player specified by the user
+        
+        /*finds the player specified by the user
         public static uint FindPlayer(Dictionary<uint, Player> Players)
         {
             //asks the user for the name of the player
@@ -98,9 +96,9 @@ namespace Assign3
 
             //returns the key of the related player if they exist.
             return key;
-        }
+        }*/
 
-        //finds the guild specified by the user via the name
+        /*finds the guild specified by the user via the name
         public static uint[] FindGuild(Dictionary<uint, Guild> Guilds, string gName)
         {
             //asks the user for the guild name   
@@ -126,9 +124,9 @@ namespace Assign3
 
             //returns the guild key
             return key;
-        }
+        }*/
 
-        //find the item specified by the user
+        /*find the item specified by the user
         public static uint FindItem(Dictionary<uint, Item> Items)
         {
             //asks the user for the item name
@@ -152,7 +150,7 @@ namespace Assign3
 
             //returns the item key
             return key;
-        }
+        }*/       
 
         /*
          * Method to read and load data from input files
@@ -940,15 +938,22 @@ namespace Assign3
         
         private void button5_Click(object sender, EventArgs e)
         {
-            // No button selected
+            int count = 0;      // counter
+
+            // Clear output field
+            OutputBox.Items.Clear();
+
+            // No button selected or no players to search
             if (!TankButton.Checked && !HealerButton.Checked && !DamageButton.Checked)
             {              
                 MessageBox.Show("Please select a role.", "Error");
                 return;
             }
-
-            // Clear output field
-            OutputBox.Items.Clear();
+            if (Players.Count == 0)
+            {
+                OutputBox.Items.Add("No players found.");
+                return;
+            }
 
             // Tank button selected
             if(TankButton.Checked)
@@ -961,12 +966,15 @@ namespace Assign3
                     orderby p.Value.Level, p.Value.Name
                     select p;
 
-                // Print results
+                // Print result
                 OutputBox.Items.Add("All Eligible Players Not Fulfilling the Tank Role");
                 OutputBox.Items.Add(new String('-', 80));
                 foreach (var result in roleQuery)
+                {
                     OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-6})   Race: {3,-8}   Level: {4,-2}   <{5}>",
                                                        result.Value.Name, result.Value.Playerclass, result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
+                    count++;
+                }
             }
 
             // Healer button selected
@@ -980,13 +988,15 @@ namespace Assign3
                     orderby p.Value.Level, p.Value.Name
                     select p;
 
-
                 // Print results
                 OutputBox.Items.Add("All Eligible Players Not Fulfilling the Healer Role");
                 OutputBox.Items.Add(new String('-', 80));
                 foreach (var result in roleQuery)
-                        OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-10}Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
-                                      result.Value.Role + ")", result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));          
+                {
+                    OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-10}Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
+                                  result.Value.Role + ")", result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
+                    count++;
+                }
             }
 
             // Damage button selected
@@ -1004,9 +1014,15 @@ namespace Assign3
                 OutputBox.Items.Add("All Eligible Players Not Fulfilling the Damage Role");
                 OutputBox.Items.Add(new String('-', 80));
                 foreach (var result in roleQuery)
+                {
                     OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-10}Race: {3,-8}   Level: {4,-2}   <{5}>", result.Value.Name, result.Value.Playerclass,
                                   result.Value.Role + ")", result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
+                    count++;
+                }
             }
+
+            if (count == 0)
+                OutputBox.Items.Add("There are no players able to fill the role.");
 
             // Print footer
             OutputBox.Items.Add("");
@@ -1015,9 +1031,14 @@ namespace Assign3
         }
 
         private void button6_Click(object sender, EventArgs e)
-        {          
-            // Clear the output field and print header
+        {               
+            // Clear the output field and print header or error message if no guilds exist
             OutputBox.Items.Clear();
+            if (Guilds.Count == 0)
+            {
+                OutputBox.Items.Add("No guilds found.");
+                return;
+            }
             OutputBox.Items.Add("Percentage of Max Level Players in All Guilds");
             OutputBox.Items.Add(new String('-', 80));
 
