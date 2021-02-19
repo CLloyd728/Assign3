@@ -847,7 +847,7 @@ namespace Assign3
             //checks to make sure that the server and role boxes are filled
             if (RoleBox.SelectedIndex == -1)
             {
-                MessageBox.Show("Please select a server.", "Error");
+                MessageBox.Show("Please select a role.", "Error");
                 return;
             }
             if (ServerBox3.SelectedIndex == -1)
