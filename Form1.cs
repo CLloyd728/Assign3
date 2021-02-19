@@ -69,7 +69,7 @@ namespace Assign3
         private static string itemsFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\equipment.txt";
         private static string playersFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\players.txt";
         
-        /*finds the player specified by the user
+        //finds the player specified by the user
         public static uint FindPlayer(Dictionary<uint, Player> Players)
         {
             //asks the user for the name of the player
@@ -96,9 +96,9 @@ namespace Assign3
 
             //returns the key of the related player if they exist.
             return key;
-        }*/
+        }
 
-        /*finds the guild specified by the user via the name
+        //finds the guild specified by the user via the name
         public static uint[] FindGuild(Dictionary<uint, Guild> Guilds, string gName)
         {
             //asks the user for the guild name   
@@ -124,9 +124,9 @@ namespace Assign3
 
             //returns the guild key
             return key;
-        }*/
+        }
 
-        /*find the item specified by the user
+        //find the item specified by the user
         public static uint FindItem(Dictionary<uint, Item> Items)
         {
             //asks the user for the item name
@@ -150,7 +150,7 @@ namespace Assign3
 
             //returns the item key
             return key;
-        }*/       
+        }     
 
         /*
          * Method to read and load data from input files
