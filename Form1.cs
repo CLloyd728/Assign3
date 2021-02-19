@@ -975,6 +975,7 @@ namespace Assign3
                                                        result.Value.Name, result.Value.Playerclass, result.Value.Role, result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
                     count++;
                 }
+                TankButton.Checked = false;
             }
 
             // Healer button selected
@@ -997,6 +998,7 @@ namespace Assign3
                                   result.Value.Role + ")", result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
                     count++;
                 }
+                HealerButton.Checked = false;
             }
 
             // Damage button selected
@@ -1019,6 +1021,7 @@ namespace Assign3
                                   result.Value.Role + ")", result.Value.Race, result.Value.Level, Guilds[result.Value.GuildID].Guildname));
                     count++;
                 }
+                DamageButton.Checked = false;
             }
 
             if (count == 0)
@@ -1031,7 +1034,8 @@ namespace Assign3
         }
 
         private void button6_Click(object sender, EventArgs e)
-        {               
+        {
+            int count = 0;       //counter
             // Clear the output field and print header or error message if no guilds exist
             OutputBox.Items.Clear();
             if (Guilds.Count == 0)
@@ -1053,13 +1057,14 @@ namespace Assign3
                     from p in Players
                     where p.Value.GuildID == g.Value.Guildid
                     select p;
-
+               
                 // Add to totals based on results of the query
                 foreach (var result in membersQuery)
                 {
                     members++;
                     if (result.Value.Level == 60)
                         cappedMembers++;
+                    count++;
                 }
 
                 // Output results to output field
@@ -1069,6 +1074,9 @@ namespace Assign3
                     OutputBox.Items.Add("");
                 }
             }
+
+            if (count == 0)
+                OutputBox.Items.Add("No results found, all guilds are empty.");
 
             // Print footer
             OutputBox.Items.Add("");
