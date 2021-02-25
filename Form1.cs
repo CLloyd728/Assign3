@@ -4,6 +4,14 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
+/*
+ Cameron Lloyd, Bradley Graves
+ z1853137, z1853328
+ Assignment 3
+ CSCI 473
+ This file has some simple Linq queries for various information all of this is being accessed by buttons, combo boxs and radio buttons
+*/
+
 
 namespace Assign3
 {
@@ -12,7 +20,7 @@ namespace Assign3
         /*
          * Enum definitions
          */
-        public enum ItemType
+public enum ItemType
         {
             Helmet, Neck, Shoulders, Back, Chest,
             Wrist, Gloves, Belt, Pants, Boots,
@@ -740,7 +748,7 @@ namespace Assign3
             RoleBox.Items.AddRange(new string[] { "Tank", "Healer", "Damage" });
             //adding the types to the guild type box
             TypeBox.Items.AddRange(new string[] { "Casual", "Questing", "Mythic", "Raiding", "PVP" });
-            //Fills the server box
+            //Fills the server boxes and tests for each specific box just in case we decide to edit one of these boxes elsewher in the program
             foreach (KeyValuePair<uint, Guild> pair in Guilds)
             {
                 if (ServerBox.FindStringExact(pair.Value.Servername) == -1)
@@ -777,11 +785,13 @@ namespace Assign3
             //prints out the players if any are found or that none where found if that is the case
             OutputBox.Items.Add(String.Format("All {0} from {1}", ClassBox.Text, ServerBox.Text));
             OutputBox.Items.Add(new String('-', 80));
+            //Loops through each player in the query and prints out their information
             foreach (KeyValuePair<uint, Player> i in ClassQuery)
             {
                 OutputBox.Items.Add(String.Format("Name: {0,-15} ({1} - {2,-6}) Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Guildname));
                 Count++;
             }
+            //if the query did not return any results it prints out a message saying so
             if (Count == 0)
             {
                 OutputBox.Items.Add("No players of that class were found on that server.");
@@ -793,7 +803,7 @@ namespace Assign3
             ClassBox.SelectedIndex = -1;
             ServerBox.SelectedIndex = -1;
         }
-
+        //button click to find the percentage of each race on any given server
         private void button2_Click(object sender, EventArgs e)
         {
             //checks to make sure that the server box is filled in
@@ -805,24 +815,28 @@ namespace Assign3
             OutputBox.Items.Clear();
             //makes queries for all the races to get the counts and add them up
             float TCount = 0;
+            //query for the orcs
             float OrcCount =
                 (from p in Players
                  where p.Value.GuildID != 0
                  where p.Value.Race == (Race)0 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
                  select p).Count();
             TCount += OrcCount;
+            //Troll query
             float TrollCount =
                 (from p in Players
                  where p.Value.GuildID != 0
                  where p.Value.Race == (Race)1 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
                  select p).Count();
             TCount += TrollCount;
+            //Tauren Query
             float TaurenCount =
                 (from p in Players
                  where p.Value.GuildID != 0
                  where p.Value.Race == (Race)2 && Guilds[p.Value.GuildID].Servername.Contains(ServerBox2.Text)
                  select p).Count();
             TCount += TaurenCount;
+            //Forsaken query
             float ForsakenCount =
                 (from p in Players
                  where p.Value.GuildID != 0
@@ -841,7 +855,7 @@ namespace Assign3
             OutputBox.Items.Add(new String('-', 80));
             ServerBox2.SelectedIndex = -1;
         }
-
+        //This button searches for all players of a particular role on a specific server
         private void button3_Click(object sender, EventArgs e)
         {
             //checks to make sure that the server and role boxes are filled
@@ -868,11 +882,13 @@ namespace Assign3
             //prints out the players if any are found or that none where found if that is the case
             OutputBox.Items.Add(String.Format("All {0} from {1}", RoleBox.Text, ServerBox3.Text));
             OutputBox.Items.Add(new String('-', 80));
+            //runs through all the players found in the query if any and prints out their information
             foreach (KeyValuePair<uint, Player> i in ClassQuery)
             {
                 OutputBox.Items.Add(String.Format("Name: {0,-15} ({1,-8} - {2,-6})   Race: {3,-10} Level: {4,-3}  <{5}>", i.Value.Name, i.Value.Playerclass, i.Value.Role, i.Value.Race, i.Value.Level, Guilds[i.Value.GuildID].Guildname));
                 Count++;
             }
+            //if there where no players found it prints a message saying as much
             if (Count == 0)
             {
                 OutputBox.Items.Add("No players of that class were found on that server.");
@@ -896,7 +912,7 @@ namespace Assign3
             if (MinUpDown.Value > MaxUpDown.Value)
                 MinUpDown.Value = MaxUpDown.Value;
         }
-
+        //This button finds all guilds of a certain type
         private void button4_Click(object sender, EventArgs e)
         {
             //checks to make sure that the Type boxe is filled
@@ -916,15 +932,18 @@ namespace Assign3
             OutputBox.Items.Add(String.Format("All {0}-Type of Guilds", TypeBox.Text));
             //nested foreach loops to go through all of the guilds in each group and print them out by name
             OutputBox.Items.Add(new String('-', 80));
+            //runing through the servers 
             foreach (var i in GuildQuery)
             {
                 OutputBox.Items.Add(i.Key);
+                //going through all the guilds on that server of that type
                 foreach (KeyValuePair<uint, Guild> guild in i)
                 {
                     OutputBox.Items.Add(String.Format("       <{0}>", guild.Value.Guildname));
+                    Count++;
                 }
-                Count++;
             }
+            //if no guilds where found thenit prints out a message saying as such.
             if (Count == 0)
             {
                 OutputBox.Items.Add("No Guilds found.");
